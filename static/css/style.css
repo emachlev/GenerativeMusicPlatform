@@ -1,0 +1,8 @@
+.piece-card {
+    height: 400px !important;
+}
+
+.piece-image {
+    height: 170px;
+    object-fit: fill;
+}

@@ -11,6 +11,7 @@
   "dependencies": {
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "markov-chains": "^1.0.2",
     "npm": "^6.9.0"
   }
 }
