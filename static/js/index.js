@@ -2,6 +2,9 @@ let schedule = null;
 let playingCaller = null;
 
 function playPiece(file, caller) {
+    if (Tone.context.state !== "running") {
+        Tone.context.resume();
+    }
     let tempPlayingCaller = playingCaller;
     if (schedule) {
         stopPiece(playingCaller)
@@ -20,7 +23,7 @@ function stopPiece(caller) {
     playingCaller = null;
 }
 
-var piano = SampleLibrary.load({
+let piano = SampleLibrary.load({
     instruments: "piano"
 });
 
