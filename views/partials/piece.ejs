@@ -22,9 +22,9 @@
             <h6 class="card-subtitle blue-text pb-3"><%= piece.by %></h6>
             <!--Text-->
             <p class="card-text"><%= piece.description %></p>
-            <a target="_blank" onclick="playPiece('<%= piece.file %>')"
-               class="btn btn-outline-grey"><i class="fas fa-play mr-2"></i> Play
-            </a>
+            <button onclick="playPiece('<%= piece.file %>')"
+               class="btn btn-outline-grey piece-play-btn" disabled><i class="fas fa-play mr-2"></i> Play
+            </button>
         </div>
 
     </div>
