@@ -21,29 +21,36 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
     phraseLengthBeats = 32;
     eigthNotesCopy = eigthNotes.slice(0);
     while (eigthNotesCopy.length > 0) {
-      phrases.push(eigthNotesCopy.splice(0, phraseLengthBeats));
+        phrases.push(eigthNotesCopy.splice(0, phraseLengthBeats));
     }
 
     phrasesWithIndex = phrases.map(phrase =>
-      phrase.map((names, i) =>
-        names.length === 0 ? `${i}` : `${i}${','}${names}`
-      )
+        phrase.map((names, i) =>
+            names.length === 0 ? `${i}` : `${i}${','}${names}`
+        )
     );
 
     chain = new Chain(phrasesWithIndex);
 
-    console.log(chain);
-
 
     Tone.Transport.scheduleRepeat(
         schedule,
-        '2s'
+        phraseLengthBeats * EIGHTH_NOTE_INTERVAL_SECONDS
     );
 });
 
 
 schedule = () => {
-    piano.triggerAttack('G3');
+    phrase = chain.walk();
+    console.log(phrase);
+    phrase.forEach(str => {
+        [t, ...names] = str.split(',');
+        parsedT = Number.parseInt(t, 10);
+        names.forEach(name => {
+            waitTime = parsedT * EIGHTH_NOTE_INTERVAL_SECONDS;
+            piano.triggerAttack(name, `+${waitTime + 1}`);
+        });
+    });
 };
 
 
