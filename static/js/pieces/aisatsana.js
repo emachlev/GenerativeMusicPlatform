@@ -7,20 +7,20 @@ SONG_LENGTH = 301;  // Used to iterate the MIDI JSON
 
 $.getJSON('/static/midi/aisatsana.json', function (data) {
 
-    notes = data.tracks[1].notes.slice(0);
-    eigthNotes = [];
+    notes = data.tracks[1].notes.slice(0);  // The entire track
+    eigthNotes = [];  // Eigth notes that are pressed at each beat
 
-    for (time = 0; time <= SONG_LENGTH; time += EIGHTH_NOTE_INTERVAL_SECONDS) {
+    for (time = 0; time <= SONG_LENGTH; time += EIGHTH_NOTE_INTERVAL_SECONDS) {  // Filling the list
         pressedNoteNames = notes.filter(note =>
             time <= note.time && note.time < time + EIGHTH_NOTE_INTERVAL_SECONDS
         ).map(({name}) => name).sort();
         eigthNotes.push(pressedNoteNames.join(','));
     }
 
-    phrases = [];
-    phraseLengthBeats = 32;
+    phrases = [];  // List of phrases
+    phraseLengthBeats = 32;  // Every phrase is 16 beats
     eigthNotesCopy = eigthNotes.slice(0);
-    while (eigthNotesCopy.length > 0) {
+    while (eigthNotesCopy.length > 0) {  // Divide pressed eigth notes to phrases
         phrases.push(eigthNotesCopy.splice(0, phraseLengthBeats));
     }
 
@@ -40,13 +40,16 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
 });
 
 
-schedule = () => {
-    phrase = chain.walk();
+schedule = () => {  // For each generated phrase (runs indefinitely)
+    phrase = []
+    while (phrase.filter(Boolean).length < 5) {  // To make the phrases longer and avoid empty phrases
+        phrase = chain.walk()  // Walk the markov chain and get a phrase
+    }
     console.log(phrase);
-    phrase.forEach(str => {
-        [t, ...names] = str.split(',');
-        parsedT = Number.parseInt(t, 10);
-        names.forEach(name => {
+    phrase.forEach(str => {  // For each beat in the phrase
+        [t, ...names] = str.split(',');  // returns [index, note1, note2...] or just [index] if current beat is a rest
+        parsedT = Number.parseInt(t, 10);  // Get the current beat's delay in the phrase
+        names.forEach(name => {  // Play every beat in the specified delay (index*duration_of_eigth_note)
             waitTime = parsedT * EIGHTH_NOTE_INTERVAL_SECONDS;
             piano.triggerAttack(name, `+${waitTime + 1}`);
         });
