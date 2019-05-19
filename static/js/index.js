@@ -1,8 +1,32 @@
+let schedule = null;
+let playingCaller = null;
+
+function playPiece(file, caller) {
+    let tempPlayingCaller = playingCaller;
+    if (schedule) {
+        stopPiece(playingCaller)
+    }
+    if (caller !== tempPlayingCaller) {
+        $.getScript(file);
+        $(caller).html('<i class="fas fa-stop mr-2 piece-play-icon"></i> Stop');
+        playingCaller = caller;
+    }
+}
+
+function stopPiece(caller) {
+    Tone.Transport.cancel();
+    schedule = null;
+    $(caller).html('<i class="fas fa-infinity mr-2 piece-play-icon"></i> Play');
+    playingCaller = null;
+}
+
 var piano = SampleLibrary.load({
     instruments: "piano"
 });
 
-Tone.Buffer.on('load', function() {
+Tone.Buffer.on('load', function () {
     $('.piece-play-btn').removeAttr('disabled');
-    toastr.success('All samples loaded successfully!')
+    toastr.success('All samples loaded successfully!');
+    piano.toMaster();
+    Tone.Transport.start();
 });

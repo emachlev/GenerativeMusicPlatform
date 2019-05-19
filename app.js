@@ -1,4 +1,4 @@
-const pieces = require('./pieces/pieces.js');
+const pieces = require('./pieces.js');
 
 const PORT = 8081;
 
