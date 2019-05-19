@@ -8,7 +8,7 @@
         <div class="view overlay">
             <div class="rounded-top">
                 <% if (piece.image) { %>
-                    <img src="/static/img/pieces/<%= piece.image %>" class="img-fluid piece-image">
+                    <img src="/static/img/pieces/<%= piece.image %>" class="img-fluid piece-image ml-auto mr-auto">
                 <% } else { %>
                     <img src="https://mdbootstrap.com/img/Photos/Others/gradient1.jpg" class="img-fluid piece-image">
                 <% } %>
@@ -18,7 +18,8 @@
         <!--Card content-->
         <div class="card-body">
             <!--Title-->
-            <h4 class="card-title"><%= piece.name %></h4>
+            <h4 class="card-title"><strong><%= piece.name %></strong></h4>
+            <h6 class="card-subtitle blue-text pb-3"><%= piece.by %></h6>
             <!--Text-->
             <p class="card-text"><%= piece.description %></p>
             <a target="_blank" onclick="playPiece('<%= piece.file %>')"

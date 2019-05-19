@@ -1,5 +1,5 @@
 const pieces = [
-    assemblePiece('Aisatsana', 'Aphex Twin', '‘aisatsana [102]’ is the closing track from Aphex Twin • Syro’ released 22 September 2014', 'aisatsana.js'),
+    assemblePiece('Aisatsana', 'Aphex Twin', '‘aisatsana [102]’ is the closing track from Aphex Twin • Syro’ released 22 September 2014', 'aisatsana.js', 'aisatsana.jpg'),
 ];
 
 function assemblePiece(name, by, description, file, image='') {
