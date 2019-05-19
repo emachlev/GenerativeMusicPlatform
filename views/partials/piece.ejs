@@ -7,22 +7,23 @@
         <!--Card image-->
         <div class="view overlay">
             <div class="rounded-top">
-                <img src="https://mdbootstrap.com/img/Photos/Others/gradient1.jpg" class="img-fluid piece-image">
+                <% if (piece.image) {%>
+                    <img src="/static/img/pieces/<%= piece.image %>" class="img-fluid piece-image">
+                <% } else { %>
+                    <img src="https://mdbootstrap.com/img/Photos/Others/gradient1.jpg" class="img-fluid piece-image">
+                <% } %>
             </div>
         </div>
 
         <!--Card content-->
         <div class="card-body">
             <!--Title-->
-            <h4 class="card-title"><%= piece %></h4>
+            <h4 class="card-title"><%= piece.name %></h4>
             <!--Text-->
-            <p class="card-text">Get started with MDBootstrap, the world's most popular Material Design
-                framework for building
-                responsive, mobile-first sites.</p>
-            <p class="card-text">
-                <strong>5 minutes, a few clicks and... done. You will be surprised at how easy it
-                    is.</strong>
-            </p>
+            <p class="card-text"><%= piece.description %></p>
+            <a target="_blank" onclick="playPiece('<%= piece.file %>')"
+                   class="btn btn-outline-grey"><i class="fas fa-play mr-2"></i> Play
+                </a>
         </div>
 
     </div>
