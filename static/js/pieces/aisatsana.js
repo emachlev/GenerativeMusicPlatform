@@ -42,7 +42,7 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
 
 schedule = () => {  // For each generated phrase (runs indefinitely)
     phrase = []
-    while (phrase.filter(ph=> ph.match(/[a-z]/i)).length < 5) {  // To make the phrases longer and avoid empty phrases
+    while (phrase.filter(ph=> ph.includes(',')).length < 5) {  // To make the phrases longer and avoid empty phrases
         phrase = chain.walk()  // Walk the markov chain and get a phrase
     }
     console.log(phrase);

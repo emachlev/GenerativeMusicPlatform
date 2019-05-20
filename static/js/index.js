@@ -12,6 +12,8 @@ function playPiece(file, caller) {
     if (caller !== tempPlayingCaller) {
         $.getScript(file);
         $(caller).html('<i class="fas fa-stop mr-2 piece-play-icon"></i> Stop');
+        $(caller).removeClass('btn-outline-primary');
+        $(caller).addClass('btn-primary');
         playingCaller = caller;
     }
 }
@@ -20,6 +22,8 @@ function stopPiece(caller) {
     Tone.Transport.cancel();
     schedule = null;
     $(caller).html('<i class="fas fa-infinity mr-2 piece-play-icon"></i> Play');
+    $(caller).removeClass('btn-primary');
+    $(caller).addClass('btn-outline-primary');
     playingCaller = null;
 }
 
