@@ -22,8 +22,11 @@
             <h6 class="card-subtitle blue-text pb-3"><%= piece.by %></h6>
             <!--Text-->
             <p class="card-text"><%= piece.description %></p>
+        </div>
+        <div class="card-footer">
             <button onclick="playPiece('/static/js/pieces/<%= piece.file %>', this)"
-               class="btn btn-outline-primary piece-play-btn" disabled><i class="fas fa-infinity mr-2 piece-play-icon"></i> Play
+                    class="btn btn-outline-primary piece-play-btn" disabled><i
+                        class="fas fa-infinity mr-2 piece-play-icon"></i> Play
             </button>
         </div>
 
