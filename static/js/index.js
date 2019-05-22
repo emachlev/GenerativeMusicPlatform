@@ -1,5 +1,5 @@
-let schedule = null;
-let playingCaller = null;
+let schedule = null;  // The schedule of the currently playing piece
+let playingCaller = null;  // The Play button that was pressed to play the currently playing piece
 
 function playPiece(file, caller) {
     if (Tone.context.state !== "running") {
