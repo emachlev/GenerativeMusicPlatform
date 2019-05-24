@@ -31,7 +31,6 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
     );
 
     chain = new Chain(versesWithIndex);
-    console.log(verses);
 
 
     Tone.Transport.scheduleRepeat(
@@ -44,7 +43,7 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
 schedule = () => {  // For each generated verse (runs indefinitely)
     verse = [];
     while (verse.filter(ve=> ve.includes(',')).length < 5) {  // To make the verses longer and avoid empty verses
-        verse = chain.walk()  // Walk the markov chain and get a verse
+        verse = chain.walk();  // Walk the markov chain and get a verse
     }
     verse.forEach(str => {  // For each beat in the verse
         [t, ...names] = str.split(',');  // returns [index, note1, note2...] or just [index] if current beat is a rest
