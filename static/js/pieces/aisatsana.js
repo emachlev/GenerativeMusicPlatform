@@ -17,36 +17,36 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
         pressedNotes.push(pressedNotesInCurrentBeat.join(','));
     }
 
-    phrases = [];  // List of phrases
-    phraseLengthBeats = 32;  // Every phrase is 16 beats
+    verses = [];  // List of verses
+    verseLengthBeats = 32;  // Every verse is 16 beats
     pressedNotesCopy = pressedNotes.slice(0);
     while (pressedNotesCopy.length > 0) {  // Divide pressed eigth notes to phrases
-        phrases.push(pressedNotesCopy.splice(0, phraseLengthBeats));
+        verses.push(pressedNotesCopy.splice(0, verseLengthBeats));
     }
 
-    phrasesWithIndex = phrases.map(phrase =>
+    versesWithIndex = verses.map(phrase =>
         phrase.map((names, i) =>
             names.length === 0 ? `${i}` : `${i}${','}${names}`
         )
     );
 
-    chain = new Chain(phrasesWithIndex);
-    console.log(phrases);
+    chain = new Chain(versesWithIndex);
+    console.log(verses);
 
 
     Tone.Transport.scheduleRepeat(
         schedule,
-        phraseLengthBeats * NOTE_INTERVAL_SECONDS
+        verseLengthBeats * NOTE_INTERVAL_SECONDS
     );
 });
 
 
 schedule = () => {  // For each generated phrase (runs indefinitely)
-    phrase = [];
-    while (phrase.filter(ph=> ph.includes(',')).length < 5) {  // To make the phrases longer and avoid empty phrases
-        phrase = chain.walk()  // Walk the markov chain and get a phrase
+    verse = [];
+    while (verse.filter(ve=> ve.includes(',')).length < 5) {  // To make the phrases longer and avoid empty phrases
+        verse = chain.walk()  // Walk the markov chain and get a phrase
     }
-    phrase.forEach(str => {  // For each beat in the phrase
+    verse.forEach(str => {  // For each beat in the phrase
         [t, ...names] = str.split(',');  // returns [index, note1, note2...] or just [index] if current beat is a rest
         parsedT = Number.parseInt(t, 10);  // Get the current beat's delay in the phrase
         names.forEach(name => {  // Play every beat in the specified delay (index*duration_of_eigth_note)
