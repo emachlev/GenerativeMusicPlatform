@@ -20,7 +20,7 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
     verses = [];  // List of verses
     verseLengthBeats = 32;  // Every verse is 16 beats
     pressedNotesCopy = pressedNotes.slice(0);
-    while (pressedNotesCopy.length > 0) {  // Divide pressed eigth notes to phrases
+    while (pressedNotesCopy.length > 0) {  // Divide pressed notes to verses
         verses.push(pressedNotesCopy.splice(0, verseLengthBeats));
     }
 
@@ -41,15 +41,15 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
 });
 
 
-schedule = () => {  // For each generated phrase (runs indefinitely)
+schedule = () => {  // For each generated verse (runs indefinitely)
     verse = [];
-    while (verse.filter(ve=> ve.includes(',')).length < 5) {  // To make the phrases longer and avoid empty phrases
-        verse = chain.walk()  // Walk the markov chain and get a phrase
+    while (verse.filter(ve=> ve.includes(',')).length < 5) {  // To make the verses longer and avoid empty verses
+        verse = chain.walk()  // Walk the markov chain and get a verse
     }
-    verse.forEach(str => {  // For each beat in the phrase
+    verse.forEach(str => {  // For each beat in the verse
         [t, ...names] = str.split(',');  // returns [index, note1, note2...] or just [index] if current beat is a rest
-        parsedT = Number.parseInt(t, 10);  // Get the current beat's delay in the phrase
-        names.forEach(name => {  // Play every beat in the specified delay (index*duration_of_eigth_note)
+        parsedT = Number.parseInt(t, 10);  // Get the current beat's delay in the verse
+        names.forEach(name => {  // Play every beat in the specified delay (index*duration_of_note)
             waitTime = parsedT * NOTE_INTERVAL_SECONDS;
             piano.triggerAttack(name, `+${waitTime + 1}`);
         });
