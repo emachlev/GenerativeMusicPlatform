@@ -27,6 +27,8 @@ function stopPiece(caller) {
     playingCaller = null;
 }
 
+toastr.info('Loading samples. Please wait...');
+
 let piano = SampleLibrary.load({
     instruments: "piano"
 });
