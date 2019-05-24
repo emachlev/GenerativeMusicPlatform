@@ -24,8 +24,8 @@ $.getJSON('/static/midi/aisatsana.json', function (data) {
         verses.push(pressedNotesCopy.splice(0, verseLengthBeats));
     }
 
-    versesWithIndex = verses.map(phrase =>
-        phrase.map((names, i) =>
+    versesWithIndex = verses.map(verse =>
+        verse.map((names, i) =>
             names.length === 0 ? `${i}` : `${i}${','}${names}`
         )
     );
