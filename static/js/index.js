@@ -27,6 +27,14 @@ function stopPiece(caller) {
     playingCaller = null;
 }
 
+function playCustomPiece(caller) {
+    if (parseInt($('#bpm').val()) && parseInt($('#notes_in_beat').val()) && parseInt($('#piece_length').val()))
+        playPiece('/static/js/pieces/custom-piece.js', caller);
+    else
+        toastr.error('Invalid piece parameters');
+
+}
+
 toastr.info('Loading samples. Please wait...');
 
 let piano = SampleLibrary.load({
@@ -35,6 +43,7 @@ let piano = SampleLibrary.load({
 
 Tone.Buffer.on('load', function () {
     $('.piece-play-btn').removeAttr('disabled');
+    $('.add-button').removeAttr('disabled');
     toastr.success('All samples loaded successfully!');
     piano.toMaster();
     Tone.Transport.start();
