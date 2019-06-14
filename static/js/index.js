@@ -28,7 +28,7 @@ function stopPiece(caller) {
 }
 
 function playCustomPiece(caller) {
-    if (parseInt($('#bpm').val()) && parseInt($('#notes_in_beat').val()) && parseInt($('#piece_length').val()))
+    if (parseInt($('#bpm').val()) && parseInt($('#notes_in_beat').val()) && parseInt($('#verse_length').val()) && parseInt($('#piece_length').val()) && (!isNaN(parseInt($('#track_index').val()))))
         playPiece('/static/js/pieces/custom-piece.js', caller);
     else
         toastr.error('Invalid piece parameters');

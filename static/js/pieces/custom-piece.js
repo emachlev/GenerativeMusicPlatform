@@ -12,7 +12,7 @@ try {
     throw new Error("Not a valid JSON");
 }
 
-notes = data.tracks[1].notes.slice(0);  // The entire track
+notes = data.tracks[parseInt($('#track_index').val())].notes.slice(0);  // The entire track
 pressedNotes = [];  // Notes that are pressed at each beat
 
 for (time = 0; time <= SONG_LENGTH; time += NOTE_INTERVAL_SECONDS) {  // Filling the list
@@ -23,7 +23,7 @@ for (time = 0; time <= SONG_LENGTH; time += NOTE_INTERVAL_SECONDS) {  // Filling
 }
 
 verses = [];  // List of verses
-verseLengthBeats = 32;  // Every verse is 16 beats
+verseLengthBeats = parseInt($('#verse_length').val());  // Every verse is 16 beats
 pressedNotesCopy = pressedNotes.slice(0);
 while (pressedNotesCopy.length > 0) {  // Divide pressed notes to verses
     verses.push(pressedNotesCopy.splice(0, verseLengthBeats));
