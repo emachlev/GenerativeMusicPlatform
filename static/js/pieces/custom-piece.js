@@ -1,8 +1,8 @@
-BPM = parseInt($('#bpm').val());  // The original song is at 102 BPM, but some notes are played on a half-beat interval, which is why we double it and count half-beats as regular beats
+BPM = parseInt($('#bpm').val());
 SECONDS_PER_MINUTE = 60;
 NOTES_IN_BEAT = parseInt($('#notes_in_beat').val());
-NOTE_INTERVAL_SECONDS = SECONDS_PER_MINUTE / (NOTES_IN_BEAT * BPM);  // Defines how long a single note should be played
-SONG_LENGTH = parseInt($('#piece_length').val());  // Used to iterate the MIDI JSON
+NOTE_INTERVAL_SECONDS = SECONDS_PER_MINUTE / (NOTES_IN_BEAT * BPM);
+SONG_LENGTH = parseInt($('#piece_length').val());
 
 try {
     data = JSON.parse($('#jsontxt').val());
@@ -12,20 +12,20 @@ try {
     throw new Error("Not a valid JSON");
 }
 
-notes = data.tracks[parseInt($('#track_index').val())].notes.slice(0);  // The entire track
-pressedNotes = [];  // Notes that are pressed at each beat
+notes = data.tracks[parseInt($('#track_index').val())].notes.slice(0);
+pressedNotes = [];
 
-for (time = 0; time <= SONG_LENGTH; time += NOTE_INTERVAL_SECONDS) {  // Filling the list
+for (time = 0; time <= SONG_LENGTH; time += NOTE_INTERVAL_SECONDS) {
     pressedNotesInCurrentBeat = notes.filter(note =>
         time <= note.time && note.time < time + NOTE_INTERVAL_SECONDS
     ).map(({name}) => name).sort();
     pressedNotes.push(pressedNotesInCurrentBeat.join(','));
 }
 
-verses = [];  // List of verses
-verseLengthBeats = parseInt($('#verse_length').val());  // Every verse is 16 beats
+verses = [];
+verseLengthBeats = parseInt($('#verse_length').val());
 pressedNotesCopy = pressedNotes.slice(0);
-while (pressedNotesCopy.length > 0) {  // Divide pressed notes to verses
+while (pressedNotesCopy.length > 0) {
     verses.push(pressedNotesCopy.splice(0, verseLengthBeats));
 }
 
@@ -38,15 +38,15 @@ versesWithIndex = verses.map(verse =>
 chain = new Chain(versesWithIndex);
 
 
-schedule = () => {  // For each generated verse (runs indefinitely)
+schedule = () => {
     verse = [];
-    while (verse.filter(ve => ve.includes(',')).length < 5) {  // To make the verses longer and avoid empty verses
-        verse = chain.walk();  // Walk the markov chain and get a verse
+    while (verse.filter(ve => ve.includes(',')).length < 5) {
+        verse = chain.walk();
     }
-    verse.forEach(str => {  // For each beat in the verse
-        [t, ...names] = str.split(',');  // returns [index, note1, note2...] or just [index] if current beat is a rest
-        parsedT = Number.parseInt(t, 10);  // Get the current beat's delay in the verse
-        names.forEach(name => {  // Play every beat in the specified delay (index*duration_of_note)
+    verse.forEach(str => {
+        [t, ...names] = str.split(',');
+        parsedT = Number.parseInt(t, 10);
+        names.forEach(name => {
             waitTime = parsedT * NOTE_INTERVAL_SECONDS;
             piano.triggerAttack(name, `+${waitTime + 1}`);
         });
